@@ -27,6 +27,16 @@ WebMidi.outputs.forEach(function (output, num) {
 });
 //end
 
+// Slider Initialization
+stutterAmountSlider.value = 3;
+stutterDurSlider.value = 100;
+velocityDecSlider.value = 20;
+
+// Updates values from sliders:
+let stutterAmount = parseFloat(stutterAmountSlider.value);
+let stutterDuration = parseFloat(stutterDurSlider.value);
+let velocityDec = parseFloat(velocityDecSlider.value);
+
 // Add an event listener for the 'change' event on the input devices dropdown.
 dropIns.addEventListener("change", function () {
   let selectedInputIndex = parseInt(dropIns.value);
@@ -36,11 +46,14 @@ dropIns.addEventListener("change", function () {
   }
   myInput = WebMidi.inputs[selectedInputIndex];
 
-  myInput.addListener("noteon", "all", function (e) {
-    console.log("Note On:", e.note);
-  });
-  myInput.addListener("noteoff", "all", function (e) {
-    console.log("Note Off:", e.note);
+  myInput.addListener("noteon", function (e) {
+    let myNote = new Note(e.note.number, { duration: 100 });
+
+    for (let repeatNum = 0; repeatNum < stutterAmount; repeatNum++) {
+      myOutput.channels[1].playNote(myNote, {
+        time: WebMidi.time + stutterDuration * repeatNum,
+      });
+    }
   });
 });
 
@@ -48,82 +61,3 @@ dropIns.addEventListener("change", function () {
 dropOuts.addEventListener("change", function () {
   myOutput = WebMidi.outputs[dropOuts.value];
 });
-
-//grabs sliders 
-const stutterAmountSlider = document.getElementById("stutterAmountSlider")
-const stutterDurSlider = document.getElementById("stutterDurSlider")
-const velocityDecSlider = document.getElementById("velocityDecSlider")
-
-// set initial values for sliders
-stutterAmountSlider.numStutters.value = 3
-stutterDurSlider.durStutter.value = 100
-velocityDecSlider.velocityDec.value = 20
-
-// Call the function for each slider
-updateParameter("stutterAmountSlider", "amountDisplay", "numStutters");
-updateParameter("stutterDurSlider", "durDisplay", "durStutter");
-updateParameter("velocityDecSlider", "velDisplay", "velocityDec");
-
-// Updates the parameters based on what is selected in the sliders.
-function updateParameter(sliderId, displayId, parameterName) {
-    let slider = document.getElementById(sliderId);
-    let display = document.getElementById(displayId);
-  
-    slider.addEventListener("input", function () {
-        display.innerText = slider.value;
-        // Update the global parameter value
-        window[parameterName] = parseInt(slider.value);
-        console.log(window[parameterName]);
-    });
-};
-
-//get value of the slider and convert it to a FP number
-let stutterAmountSlider = parseFloat (numStutter.value)
-let stutterDurSlider = parseFloat (durStutter.value)
-let velocityDecSlider = parseFloat (velocityDec.value)
-
-
-let midiInput = null; // Variable to store MIDI input device
-
-// Initialize Web MIDI
-navigator.requestMIDIAccess().then(onMIDISuccess, onMIDIFailure);
-
-// Function called when MIDI connection is successful
-function onMIDISuccess(midiAccess) {
-    // Get the first available MIDI input device
-    midiInput = midiAccess.inputs.values().next().value;
-
-    // Add event listener for MIDI messages
-    if (midiInput) {
-        midiInput.onmidimessage = onMIDIMessage;
-        console.log('MIDI input connected:', midiInput.name);
-    } else {
-        console.error('No MIDI input devices found.');
-    }
-}
-
-// Function called when MIDI connection fails
-function onMIDIFailure() {
-    console.error('Could not access MIDI devices.');
-}
-
-// Making the midi input actually stutter 
-function onMIDIMessage(event) {
-    // Check if the MIDI message is a note on message
-    if (event.data[0] === 144) { // Note on message (144) on channel 1
-        // Extract note number and velocity from the MIDI message
-        const note = event.data[1];
-        let velocity = event.data[2];
-
-        // Stutter the note by triggering it multiple times with decreasing velocity
-        for (let i = 0; i < numStutters; i++) {
-            // Calculate the stuttered velocity
-            const stutteredVelocity = Math.max(velocity - i * velocityDecrease, 0);
-
-            // Send a new MIDI note on message with the stuttered velocity
-            setTimeout(() => {
-                sendMIDIMessage(144, note, stutteredVelocity);
-            }, i * stutterDuration); // Delay each stutter
-        }
-    }
-}
