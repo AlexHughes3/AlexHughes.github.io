@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<Html>
+    <head>
+        <title> Unit 3 Project - Alex Hughes</title>
+        <script src="https://cdn.jsdelivr.net/npm/webmidi@latest/dist/iife/webmidi.iife.js" ></script>
+        <script src="script.js" type="module"></script>
+    </head>
+    <body> 
+        <h1>Project 3 - Alex Hughes</h1>
+    <h2>"St-st-st-Stutter Midi Effect"</h2>
+    <p>This is a Web based MIDI plug-in that takes the pitch and velocity values from a MIDI input signal and creates a stutter effect based on the notes played and the adjustable parameters seen below. You can adjust the rate at which the signal stutters, how long the stutters last, and how much the velocity decreases with each stutter.</p>
+    <hr>
+
+        <!-- MIDI Input and Output Boxes -->
+        <label for ="Dropdown Inputs">Select a Midi Input</label>
+        <select id ="Dropdown Outputs">    
+           <!-- Options will be added by script.js -->
+        </select>
+
+        <label for ="Dropdown Outputs">Select a Midi Output</label>
+        <select id ="Dropdown Inputs">   
+            <!-- Options will be added by script.js -->
+        </select>
+
+        <!-- Stutter Amount Slider -->
+        <h4><u>Set Stutter Amount</u> 
+            <div class="slider container">
+                <input type="range" id="stutterAmountSlider" min="1" max="20" value="1">
+            </div>
+            <div class="value container">
+                <p><span id="amountDisplay">0</span> Stutter Amount</p>
+            </div>
+        </h4>
+
+        <!-- Stutter Duration Slider -->
+        <h5><u>Set Stutter Duration</u> 
+            <div class="slider container">
+                <input type="range" id="stutterDurSlider" min="50" max="2000" value="250">
+            </div>
+            <div class="value container">
+                <p><span id="durationDisplay">0</span> Stutter Duration in miliseconds</p>
+            </div>
+        </h5>
+
+         <!-- Velocity Decrease Slider -->
+         <h6><u>Set how much the velocity decreases between each stutter</u> 
+            <div class="slider container">
+                <input type="range" id="velocityDecSlider" min="1" max="50" value="25">
+            </div>
+            <div class="value container">
+                <p><span id="durationDisplay">0</span> Velocity decrease</p>
+            </div>
+        </h6>
+
+      
+        </select>
+    </body>
+</Html>
