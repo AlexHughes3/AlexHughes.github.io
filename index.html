@@ -1,58 +1,124 @@
+<!-- Document type declaration. It defines the type of the document and its version. -->
 <!DOCTYPE html>
-<Html>
-    <head>
-        <title> Unit 3 Project - Alex Hughes</title>
-        <script src="https://cdn.jsdelivr.net/npm/webmidi@latest/dist/iife/webmidi.iife.js" ></script>
-        <script src="script.js" type="module"></script>
-    </head>
-    <body> 
-        <h1>Project 3 - Alex Hughes</h1>
-    <h2>"St-st-st-Stutter Midi Effect"</h2>
-    <p>This is a Web based MIDI plug-in that takes the pitch and velocity values from a MIDI input signal and creates a stutter effect based on the notes played and the adjustable parameters seen below. You can adjust the rate at which the signal stutters, how long the stutters last, and how much the velocity decreases with each stutter.</p>
-    <hr>
+<html lang="en">
+<head>
+    <!-- Meta tag that specifies the character encoding for the HTML document -->
+    <meta charset="UTF-8">
+    <!-- The HTML Title element (title) defines the title of the HTML document. It is shown in browser tab. -->
+    <title>Hughes Final Project </title>
+    <!-- The HTML Script element (script) to import external JavaScript library WebMidi.js which provides Web MIDI API for the web browser -->
+    <script src="https://cdn.jsdelivr.net/npm/webmidi@latest/dist/iife/webmidi.iife.js"></script>
+    <!-- The HTML Script element (script) to import external JavaScript file script.js -->
+    <script src="script.js" type="module"></script>
+    <!-- The HTML Link element (link) to import external CSS file style.css -->
+    <!-- <link rel="stylesheet" href="style.css"> -->
+</head>
+<body>
+<!-- Heading of the webpage -->
+<h1>Plugin Chain</h1>
+<div>
+<h2>Inputs</h2>
+<div>
+    <!-- Heading for MIDI Input section -->
+    <h3>MIDI</h3>
+    <!-- Label for MIDI Input dropdown  -->
+    <label for="dropdown-ins">Select a MIDI Input: </label>
+    <!-- Dropdown for MIDI inputs. It will be dynamically populated with the available MIDI inputs. -->
+    <select id="dropdown-ins"></select>
+    <!-- Label for MIDI Output dropdown  -->
+    <label for="dropdown-outs">Select a MIDI Output: </label>
+    <!-- Dropdown for MIDI inputs. It will be dynamically populated with the available MIDI inputs. -->
+    <select id="dropdown-outs"></select>
+    <!-- Dynamically populated options -->
+</div>
+</div>
 
-        <!-- MIDI Input and Output Boxes -->
-        <label for ="Dropdown Inputs">Select a Midi Input</label>
-        <select id ="Dropdown Inputs">    
-           <!-- Options will be added by script.js -->
-        </select>
+<div></div>
+<!-- Section for selecting the chain effect -->
+<h2> Effects Chain:</h2>
+<div>
+    <!-- Label for First Chain Effect  -->
+    <label for="dropdownChainIns1">Select First Effect on Chain: </label><br>
+    <!-- Dropdown for First Chain Effect. It will be dynamically populated -->
+    <select id="dropdownChainIns1"></select><br>
+    <!-- Label for Second Chain Effect  -->
+    <label for="dropdownChainIns2">Select Second Effect on Chain: </label><br>
+    <!-- Dropdown for Second Chain Effect. It will be dynamically populated -->
+    <select id="dropdownChainIns2"></select><br>
+    <!-- Label for Third Chain Effect  -->
+    <label for="dropdownChainIns3">Select Third Effect on Chain: </label><br>
+    <!-- Dropdown for Third Chain Effect. It will be dynamically populated -->
+    <select id="dropdownChainIns3"></select><br>
+    <!-- Label for Fourth Chain Effect  -->
+    <label for="dropdownChainIns4">Select Fourth Effect on Chain: </label><br>
+    <!-- Dropdown for Fourth Chain Effect. It will be dynamically populated -->
+    <select id="dropdownChainIns4"></select><br>
+</div>
 
-        <label for ="Dropdown Outputs">Select a Midi Output</label>
-        <select id ="Dropdown Outputs">   
-            <!-- Options will be added by script.js -->
-        </select>
+<!-- Section for adjusting the Sustain effect -->
+<h2>Sustain:</h2>
+<!-- Slider for the Sustain time -->
+<h3>Sustain Duration:</h3>
+<div>
+    <input id="susDur" type="range" min="100" max="5000" value="500" step="1">
+    <label id="susDurSlider" for="susDur"></label><br>
+</div>
+<div class="value container">
+    <p><span id = "susDurDisplay"> 0 </span>Miliseconds</p>
+</div></div>
+<!-- Section for adjusting the Random Velocity effect -->
+<h2>Random Velocity:</h2>
 
-        <!-- Stutter Amount Slider -->
-        <h4><u>Set Stutter Amount</u> 
-            <div class="slider container">
-                <input type="range" id="stutterAmountSlider" min="1" max="20" value="1">
-            </div>
-            <div class="value container">
-                <p><span id="amountDisplay">0</span> Stutter Amount</p>
-            </div>
-        </h4>
+<!-- Slider for the Min Velocity -->
+<h3>Minimum Velocity:</h3>
+<div>
+    <input id="velMin" type="range" min="1" max="127" value="50" step="1" />
+    <label id="velMinSlider" for="velMin"></label><br>
+</div>
+<div class="value container">
+    <p><span id = "velMinDisplay"> 90 </span></p>
+</div>
+<!-- Slider for the Max Velocity -->
+<h3>Max Velocity:</h3>
+<div>
+    <input id="velMax" type="range" min="1" max="127" value="90" step="1" />
+    <label id="velMaxSlider" for="velMax"></label><br>
+</div>
+<div class="value container">
+    <p><span id = "velMaxDisplay"> 90 </span></p>
+</div>
+<!-- How do I get it to pick a random number between these two values?-->
 
-        <!-- Stutter Duration Slider -->
-        <h5><u>Set Stutter Duration</u> 
-            <div class="slider container">
-                <input type="range" id="stutterDurSlider" min="50" max="2000" value="250">
-            </div>
-            <div class="value container">
-                <p><span id="durationDisplay">0</span> Stutter Duration in miliseconds</p>
-            </div>
-        </h5>
+<!-- Section for adjusting the Transposition effect -->
+<h2>Transposition:</h2>
+<!-- Slider for the Transpostion Amount -->
+<h3> Number of Half Steps Transposed:</h3>
+<div>
+    <input id="transAmount" type="range" min="-24" max="24" value="0" step="1">
+    <label id="transSlider" for="transAmount"></label><br>
+</div>
+<div class="value container">
+    <p><span id = "transDisplay"> 0 </span> Halfsteps </p>
+</div>
 
-         <!-- Velocity Decrease Slider -->
-         <h6><u>Set how much the velocity decreases between each stutter</u> 
-            <div class="slider container">
-                <input type="range" id="velocityDecSlider" min="1" max="50" value="25">
-            </div>
-            <div class="value container">
-                <p><span id="durationDisplay">0</span> Velocity decrease</p>
-            </div>
-        </h6>
+<!-- Section for adjusting the Echo effect -->
+<h2>Echo:</h2>
+<!-- Slider for the Echo Effect (how many echos) -->
+<h3> Echo Repeat Amount: </h3>
+<div>
+    <input id="echoAmt" type="range" min="0" max="10" value="0" step="1">
+    <label id="echoAmtSlider" for="echoAmount"></label><br>
+</div>
+<div class="value container">
+    <p><span id = "echoAmtDisplay"> 0 </span> Echos </p>
+</div>
 
-      
-        </select>
-    </body>
-</Html>
+<!-- Slider for the Echo Effect (duration of repeated note) -->
+<h3> Duration of Repeated Note: </h3>
+<div>
+    <input id="echoDur" type="range" min="100" max="1000" value="500" step="1">
+    <label id="echoDurSlider" for="echoDur"></label><br>
+</div>
+<div class="value container">
+    <p><span id = "echoDurDisplay"> 0 </span> miliseconds </p>
+</div>
