@@ -45,60 +45,64 @@ const transposition = function (midiIn) {
 
 //Create Echo FX
 const echo = function (midiIn) {
-  let midiNote = new Note(midiIn.echoAmount, {duration: echoDur})
-  for (let repeatNum = (echoAmount); repeatNum <echoAmount; repeatNum++) {
+  let midiNote = new Note(midiIn.echoAmount, {echoDuration: echoDur})
+  for (let repeatNum = (echoAmount); repeatNum < echoAmount; repeatNum++) {
   console.log(midiNote)
   return midiIn
-}}
+}};
 
+// Allows the selection of FX 1 
 const fxOne = function (midiIn) {
   let fxChoice = document.getElementById("fxDrop1").value
   if (fxChoice == "Sustain") {
     return sustain(midiIn)
-  } else if (fxChoice == "velocity"){
+  } else if (fxChoice == "Velocity"){
     return velocity(midiIn)
-  } else if (fxChoice == "transposition"){
+  } else if (fxChoice == "Transposition"){
     return transposition(midiIn)
-  } else if (fxChoice == "echo"){
+  } else if (fxChoice == "Echo"){
     return echo(midiIn)
   }
 }
 
+// Allows the selection of FX 2
 const fxTwo = function (midiIn) {
   let fxChoice = document.getElementById("fxDrop2").value
   if (fxChoice == "Sustain") {
     return sustain(midiIn)
-  } else if (fxChoice == "velocity"){
+  } else if (fxChoice == "Velocity"){
     return velocity(midiIn)
-  } else if (fxChoice == "transposition"){
+  } else if (fxChoice == "Transposition"){
     return transposition(midiIn)
-  } else if (fxChoice == "echo"){
+  } else if (fxChoice == "Echo"){
     return echo(midiIn)
   }
 }
 
+// Allows the selection of FX 3
 const fxThree = function (midiIn) {
   let fxChoice = document.getElementById("fxDrop3").value
   if (fxChoice == "Sustain") {
     return sustain(midiIn)
-  } else if (fxChoice == "velocity"){
+  } else if (fxChoice == "Velocity"){
     return velocity(midiIn)
-  } else if (fxChoice == "transposition"){
+  } else if (fxChoice == "Ttransposition"){
     return transposition(midiIn)
-  } else if (fxChoice == "echo"){
+  } else if (fxChoice == "Echo"){
     return echo(midiIn)
   }
 }
 
+// Allows the selection of FX 4
 const fxFour = function (midiIn) {
   let fxChoice = document.getElementById("fxDrop4").value
   if (fxChoice == "Sustain") {
     return sustain(midiIn)
-  } else if (fxChoice == "velocity"){
+  } else if (fxChoice == "Velocity"){
     return velocity(midiIn)
-  } else if (fxChoice == "transposition"){
+  } else if (fxChoice == "Transposition"){
     return transposition(midiIn)
-  } else if (fxChoice == "echo"){
+  } else if (fxChoice == "Echo"){
     return echo(midiIn)
   }
 }
@@ -115,19 +119,16 @@ WebMidi.outputs.forEach(function (output, num) {
   dropOuts.innerHTML += `<option value=${num}>${output.name}</option>`;
 });
 
-// MIDI FX
 
 let randomVelNumber = 75
-
-// Updates Sliders
 
 // Call All Sliders
 let susDurSlider = document.getElementById("susDur");
 let velMinSlider = document.getElementById("velMin");
 let velMaxSlider = document.getElementById("velMax");
 let transSlider = document.getElementById("transAmount");
-let echoAmtSlider = document.getElementById("echoAmtSlider");
-let echoDurSlider = document.getElementById("echoDurSlider");
+let echoAmtSlider = document.getElementById("echoAmount");
+let echoDurSlider = document.getElementById("echoDur");
 
 // Initialize Slider Values
 susDurSlider.value = 500;
@@ -148,9 +149,9 @@ let echoDur = 500;
 //Library of FX (Populates Dropdowns)
 const allFx = {
   Sustain: susDur,
-  velocity: randomVelNumber,
-  transposition: transAmount,
-  echo: echoAmount,
+  Velocity: randomVelNumber,
+  Transposition: transAmount,
+  Echo: echoAmount,
 };
 
 //Get FX DropDowns
@@ -158,20 +159,6 @@ let fxDrop1 = document.getElementById("fxDrop1");
 let fxDrop2 = document.getElementById("fxDrop2");
 let fxDrop3 = document.getElementById("fxDrop3");
 let fxDrop4 = document.getElementById("fxDrop4");
-
-// //populates Fx Options? 
-// fxOptions.forEach(function (input, num) {
-//   fxDrop1.innerHTML += `<option value=${num}>${input.name}</option>`;
-// });
-// fxOptions.inputs.forEach(function (input, num) {
-//   fxDrop2.innerHTML += `<option value=${num}>${input.name}</option>`;
-// });
-// fxOptions.inputs.forEach(function (input, num) {
-//   fxDrop3.innerHTML += `<option value=${num}>${input.name}</option>`;
-// });
-// fxOptions.inputs.forEach(function (input, num) {
-//   fxDrop4.innerHTML += `<option value=${num}>${input.name}</option>`;
-// });
 
 console.log(Object.keys(allFx))
 
@@ -231,26 +218,6 @@ echoDurSlider.addEventListener("change", function () {
   echoDur = parseInt(echoDurSlider.value);
   console.log(echoDur)
 });
-
-
-// //define MIDI processing function
-// const midiProcess = function (midiNoteInput) {
-//   let pitch = midiNoteInput.note.number;
-//   let velocity = midiNoteInput.note.rawAttack;
-//   let transposition = midiNoteInput.note.interval
-//   let duration = midiNoteInput.note.duration; 
-//   let myNotes = [];
-//   currentNote.forEach(function (interval) {
-//     console.log(pitch);
-//     console.log(transposition);
-//     console.log(duration);
-//     console.log(velocity)
-//     let midiNote = new Note(pitch + parseInt(transAmount) + interval, {
-//     });
-//       // When a note on event is received, send a note on message to the output device.
-//     myNotes.push(midiNote);
-//   };
-//   return myNotes;
 
 // Add an event listener for the 'change' event on the input devices dropdown.
 // This allows the script to react when the user selects a different MIDI input device.
